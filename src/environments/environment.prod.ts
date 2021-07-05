@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  LOCAL_BASE_URL: '../assets/mock/employees.json',
+  production: true,
 };

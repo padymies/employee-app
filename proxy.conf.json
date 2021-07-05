@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": "http://ibillboard.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

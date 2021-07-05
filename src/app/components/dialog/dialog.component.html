@@ -1,0 +1,66 @@
+<p-dialog
+  header="Add New Employee"
+  [modal]="true"
+  [(visible)]="display"
+  appendTo="body"
+  [responsive]="true"
+  showEffect="fade"
+  [draggable]="false"
+  (onHide)="onHide()"
+>
+  <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()">
+    <div class="p-fluid p-formgrid p-grid p-p-3">
+      <div class="p-field p-col-12 p-md-6">
+        <label for="name">Name</label>
+        <input id="name" formControlName="name" type="text" pInputText />
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="surname">Surname</label>
+        <input id="Surname" formControlName="surname" type="text" pInputText />
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="workPosition">Work Position</label>
+        <p-dropdown
+          formControlName="workPosition"
+          inputId="workPosition"
+          [options]="workPositions"
+          placeholder="Work Position"
+          optionLabel="name"
+          optionValue="name"
+        ></p-dropdown>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label for="dateOfBirth">Date of Birth</label>
+        <p-calendar
+          formControlName="dateOfBirth"
+          dataType="string"
+          appendTo="body"
+          [showIcon]="true"
+          [readonlyInput]="true"
+          [monthNavigator]="true"
+          [yearNavigator]="true"
+          yearRange="1970:2021"
+        ></p-calendar>
+      </div>
+      <div class="p-col-4 p-offset-4 p-d-flex p-mt-6">
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-primary p-mr-2"
+          label="SAVE"
+          type="submit"
+          [disabled]="employeeForm.invalid"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-danger p-mr-2"
+          label="CANCEL"
+          (click)="cancel()"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>

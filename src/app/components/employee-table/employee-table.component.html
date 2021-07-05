@@ -1,0 +1,110 @@
+<!-- Employee table ==================================== -->
+<ng-container *ngIf="employees | async as data">
+  <p-table
+    #employeesTable
+    [value]="data"
+    dataKey="id"
+    [scrollable]="true"
+    [rows]="100"
+    scrollHeight="350px"
+    [virtualScroll]="true"
+    [virtualRowHeight]="34"
+    styleClass="p-datatable-gridlines"
+    editMode="row"
+    [autoLayout]="true"
+    [globalFilterFields]="['name', 'surname', 'workPosition']"
+  >
+    <!-- Column groups ================================== -->
+    <ng-template pTemplate="colgroup" let-columns>
+      <colgroup *ngFor="let col of columns">
+        <col [ngStyle]="{ width: col.width }" />
+      </colgroup>
+    </ng-template>
+    <!-- ================================================= -->
+
+    <!-- Table Actions Header ============================ -->
+    <ng-template pTemplate="caption">
+      <app-employee-table-header
+        (onDialogVisible)="showAddEmployeeDialog()"
+        [tableReference]="employeesTable"
+      ></app-employee-table-header>
+    </ng-template>
+    <!-- ================================================= -->
+
+    <!-- Columns Headers -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of columns">{{ col.header }}</th>
+      </tr>
+    </ng-template>
+    <!-- ================================================= -->
+
+    <!-- Table Body ====================================== -->
+    <ng-template
+      pTemplate="body"
+      let-employee
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="employee">
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="employee.name" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ employee.name }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>{{ employee.surname }}</td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-dropdown
+                [options]="workPositions"
+                [(ngModel)]="employee.workPosition"
+                optionLabel="name"
+                optionValue="name"
+              ></p-dropdown>
+            </ng-template>
+            <ng-template pTemplate="output" field="workPosition">
+              {{ employee.workPosition }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>{{ employee.dateOfBirth }}</td>
+        <td style="text-align: center">
+          <!-- Row Actions Buttons ============================ -->
+          <app-cell-buttons
+            [editing]="editing"
+            [employee]="employee"
+            [index]="ri"
+          ></app-cell-buttons>
+          <!-- ================================================ -->
+        </td>
+      </tr>
+    </ng-template>
+    <!-- End Table Body ======================================= -->
+  </p-table>
+</ng-container>
+<!-- End Employee Table ======================================= -->
+
+<!-- Add new Employee Modal Dialog ============================ -->
+<app-dialog
+  [workPositions]="workPositions"
+  [display]="display"
+  (onCloseDialog)="showAddEmployeeDialog()"
+></app-dialog>
+<!--// ======================================================== -->
+
+<!-- Delete Employee Confirm Dialog =========================== -->
+<p-confirmDialog
+  global="true"
+  appendTo="body"
+  header="Delete Confirmation"
+  icon="pi pi-exclamation-triangle"
+  acceptButtonStyleClass="p-button-success"
+  rejectButtonStyleClass="p-button-danger"
+></p-confirmDialog>
+<!-- ==========================================================  -->
